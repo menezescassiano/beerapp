@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Beer App</string>
+    <string name="connection_error">A connection error has occurred. Try gain Later.</string>
 </resources>

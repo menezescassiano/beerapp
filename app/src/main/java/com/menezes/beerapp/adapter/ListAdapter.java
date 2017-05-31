@@ -27,13 +27,13 @@ public class ListAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.beer_list_item, parent, false);
-        return new ListViewHolder(view);
+        return new ListViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ListViewHolder contractViewHolder = (ListViewHolder) holder;
-        contractViewHolder.populateList(beersNames.get(position));
+        ListViewHolder listViewHolder = (ListViewHolder) holder;
+        listViewHolder.populateList(beersNames.get(position));
     }
 
     @Override

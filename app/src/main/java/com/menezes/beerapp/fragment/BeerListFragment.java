@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.menezes.beerapp.R;
 import com.menezes.beerapp.adapter.ListAdapter;
@@ -26,6 +25,8 @@ import butterknife.InjectView;
 
 public class BeerListFragment extends Fragment {
 
+    private static String BEERS_RESPONSE = "BEERS_RESPONSE";
+
     @InjectView(R.id.beers_list)
     RecyclerView rvBeerList;
 
@@ -36,9 +37,8 @@ public class BeerListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_beer_list, container, false);
         ButterKnife.inject(this, view);
         Bundle bundle = this.getArguments();
-        BeersResponse beersResponse = bundle.getParcelable("BEERS_RESPONSE") ;
-
-        createList(beersResponse.getData());
+        BeersResponse beersResponse = bundle.getParcelable(BEERS_RESPONSE) ;
+        createList(beersResponse != null ? beersResponse.getData() : null);
         return view;
     }
 
