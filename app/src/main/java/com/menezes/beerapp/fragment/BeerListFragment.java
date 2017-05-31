@@ -30,6 +30,9 @@ public class BeerListFragment extends Fragment {
     @InjectView(R.id.beers_list)
     RecyclerView rvBeerList;
 
+    private List<BeerData> beerDataList;
+    private BeersResponse beersResponse;
+
     private ListAdapter adapter;
 
     @Override
@@ -37,14 +40,14 @@ public class BeerListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_beer_list, container, false);
         ButterKnife.inject(this, view);
         Bundle bundle = this.getArguments();
-        BeersResponse beersResponse = bundle.getParcelable(BEERS_RESPONSE) ;
+        beersResponse = bundle.getParcelable(BEERS_RESPONSE) ;
+        beerDataList = beersResponse.getData();
         createList(beersResponse != null ? beersResponse.getData() : null);
         return view;
     }
 
     private void createList(List<BeerData> beerList) {
-        ArrayList<String> beerNames = getBeersNames(beerList);
-        adapter = new ListAdapter(beerNames);
+        adapter = new ListAdapter(beerList);
         rvBeerList.setAdapter(adapter);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(getActivity()) {
             @Override
@@ -62,5 +65,9 @@ public class BeerListFragment extends Fragment {
         }
 
         return beersNames;
+    }
+
+    public List<BeerData> getBeerDataList() {
+        return beerDataList;
     }
 }
