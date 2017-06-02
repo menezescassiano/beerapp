@@ -8,7 +8,10 @@ import android.widget.Toast;
 
 import com.menezes.beerapp.BuildConfig;
 import com.menezes.beerapp.R;
+import com.menezes.beerapp.adapter.ListViewHolder;
+import com.menezes.beerapp.fragment.BeerDetailsFragment;
 import com.menezes.beerapp.fragment.BeerListFragment;
+import com.menezes.beerapp.model.BeerData;
 import com.menezes.beerapp.model.BeersResponse;
 import com.menezes.beerapp.service.RetrofitClient;
 
@@ -22,12 +25,15 @@ import retrofit2.Response;
 
 import static android.view.View.GONE;
 
-public class BeersActivity extends AppCompatActivity {
+public class BeersActivity extends AppCompatActivity implements ListViewHolder.OnInteractionListener {
 
     private static final String BEERS_RESPONSE = "BEERS_RESPONSE";
+    private static final String SELECTED_BEER = "SELECTED_BEER";
 
     @InjectView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    private List<BeerData> beerDatas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,7 @@ public class BeersActivity extends AppCompatActivity {
             public void onResponse(Call<BeersResponse> call, Response<BeersResponse> response) {
                 progressBar.setVisibility(GONE);
                 BeersResponse beersResponse = response.body();
+                beerDatas = beersResponse.getData();
                 callBeersListFragment(beersResponse);
             }
 
@@ -60,6 +67,15 @@ public class BeersActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable(BEERS_RESPONSE, beersResponse);
         fragment.setArguments(bundle);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, fragment, fragment.getClass().getSimpleName()).commit();
+    }
+
+    @Override
+    public void onBeerSelected(int position) {
+        Fragment fragment = new BeerDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SELECTED_BEER, beerDatas.get(position));
         getFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, fragment, fragment.getClass().getSimpleName()).commit();
     }
