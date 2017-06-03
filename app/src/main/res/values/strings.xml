@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Beer App</string>
     <string name="connection_error">A connection error has occurred. Try gain Later.</string>
+    <string name="no_description_available">Sorry. No description to display</string>
 </resources>

@@ -76,7 +76,17 @@ public class BeersActivity extends AppCompatActivity implements ListViewHolder.O
         Fragment fragment = new BeerDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(SELECTED_BEER, beerDatas.get(position));
+        fragment.setArguments(bundle);
         getFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, fragment, fragment.getClass().getSimpleName()).commit();
+                .replace(R.id.frame_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(getFragmentManager().getBackStackEntryCount() > 0)
+            getFragmentManager().popBackStack();
+        else
+            super.onBackPressed();
     }
 }

@@ -50,7 +50,12 @@ public class ListAdapter extends RecyclerView.Adapter {
     private ArrayList<String> getBeersNames(List<BeerData> beerList) {
         ArrayList<String> beersNames = new ArrayList();
         for (BeerData beerData : beerList) {
-            beersNames.add(beerData.getName());
+            if(beerData.getStyle() != null) {
+                beersNames.add(beerData.getStyle().getName());
+            } else {
+                beersNames.add(beerData.getName());
+            }
+
         }
 
         return beersNames;

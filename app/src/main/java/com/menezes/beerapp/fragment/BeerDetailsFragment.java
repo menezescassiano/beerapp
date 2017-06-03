@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.menezes.beerapp.R;
 import com.menezes.beerapp.model.BeerData;
+import com.menezes.beerapp.util.BitmapTransform;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -22,6 +25,11 @@ import butterknife.InjectView;
 public class BeerDetailsFragment extends Fragment {
 
     private static final String SELECTED_BEER = "SELECTED_BEER";
+
+    private static final int MAX_WIDTH = 1024;
+    private static final int MAX_HEIGHT = 768;
+
+    int size = (int) Math.ceil(Math.sqrt(MAX_WIDTH * MAX_HEIGHT));
 
     @InjectView(R.id.image)
     ImageView imageView;
@@ -42,7 +50,19 @@ public class BeerDetailsFragment extends Fragment {
     }
 
     private void setUI() {
-        //Picasso.with(getActivity()).load(beerData.getImageURL).centerInside();
-        textView.setText(beerData.getDescription());
+        if (beerData.getLabels() != null) {
+            //Picasso.with(getActivity()).load(beerData.getLabels().getLarge()).resize(600, 600).centerInside().into(imageView);
+            Picasso.with(imageView.getContext())
+                    .load(beerData.getLabels().getLarge())
+                    .transform(new BitmapTransform(MAX_WIDTH, MAX_HEIGHT))
+                    .skipMemoryCache()
+                    .resize(size, size)
+                    .centerInside()
+                    .into(imageView);
+        }
+        if (beerData.getStyle().getDescription() != null) {
+            textView.setText(beerData.getStyle().getDescription());
+        }
+
     }
 }

@@ -27,6 +27,8 @@ public class BeerData implements Parcelable{
     private Integer styleId;
     @SerializedName("isOrganic")
     private String isOrganic;
+    @SerializedName("labels")
+    private Labels labels;
     @SerializedName("status")
     private String status;
     @SerializedName("statusDisplay")
@@ -102,6 +104,14 @@ public class BeerData implements Parcelable{
         this.isOrganic = isOrganic;
     }
 
+    public Labels getLabels() {
+        return labels;
+    }
+
+    public void setLabels(Labels labels) {
+        this.labels = labels;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -150,10 +160,12 @@ public class BeerData implements Parcelable{
         abv = in.readString();
         ibu = in.readString();
         isOrganic = in.readString();
+        labels = in.readParcelable(Labels.class.getClassLoader());
         status = in.readString();
         statusDisplay = in.readString();
         createDate = in.readString();
         updateDate = in.readString();
+        style = in.readParcelable(Style.class.getClassLoader());
     }
 
     @Override
@@ -165,10 +177,12 @@ public class BeerData implements Parcelable{
         dest.writeString(abv);
         dest.writeString(ibu);
         dest.writeString(isOrganic);
+        dest.writeParcelable(labels, flags);
         dest.writeString(status);
         dest.writeString(statusDisplay);
         dest.writeString(createDate);
         dest.writeString(updateDate);
+        dest.writeParcelable(style, flags);
     }
 
     @Override

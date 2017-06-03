@@ -73,17 +73,4 @@ public class BeerListFragment extends Fragment {
         };
         rvBeerList.setLayoutManager(layout);
     }
-
-    private ArrayList<String> getBeersNames(List<BeerData> beerList) {
-        ArrayList<String> beersNames = new ArrayList();
-        for (BeerData beerData : beerList) {
-            beersNames.add(beerData.getName());
-        }
-
-        return beersNames;
-    }
-
-    public List<BeerData> getBeerDataList() {
-        return beerDataList;
-    }
 }

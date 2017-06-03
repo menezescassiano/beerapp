@@ -29,6 +29,7 @@ public class ListViewHolder extends RecyclerView.ViewHolder {
         this.view = itemView;
         this.context = context;
         this.beerList = beerList;
+        this.listener = listener;
         itemView.setOnClickListener(itemOnClickListener);
     }
 
