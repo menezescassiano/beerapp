@@ -9,11 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.menezes.beerapp.R;
-import com.menezes.beerapp.model.BeerData;
 import com.menezes.beerapp.util.BitmapTransform;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,7 +21,9 @@ import butterknife.InjectView;
 
 public class BeerDetailsFragment extends Fragment {
 
-    private static final String SELECTED_BEER = "SELECTED_BEER";
+    private static final String SELECTED_BEER_PICTURE = "SELECTED_BEER_PICTURE";
+    private static final String SELECTED_BEER_DESCRIPTION = "SELECTED_BEER_DESCRIPTION";
+    private static final String SELECTED_BEER_NAME = "SELECTED_BEER_NAME";
 
     private static final int MAX_WIDTH = 1024;
     private static final int MAX_HEIGHT = 768;
@@ -37,32 +36,36 @@ public class BeerDetailsFragment extends Fragment {
     @InjectView(R.id.text_beer_description)
     TextView textView;
 
-    private BeerData beerData;
+    //private BeerData beerData;
+    private String beerLabel;
+    private String beerDescription;
+    private String beerName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_beer_details, container, false);
         ButterKnife.inject(this, view);
         Bundle bundle = this.getArguments();
-        beerData = bundle.getParcelable(SELECTED_BEER);
+        beerLabel = bundle.getString(SELECTED_BEER_PICTURE);
+        beerDescription = bundle.getString(SELECTED_BEER_DESCRIPTION);
+        getActivity().setTitle(bundle.getString(SELECTED_BEER_NAME));
         setUI();
         return view;
     }
 
     private void setUI() {
-        if (beerData.getLabels() != null) {
-            //Picasso.with(getActivity()).load(beerData.getLabels().getLarge()).resize(600, 600).centerInside().into(imageView);
+        //Picasso.with(getActivity()).load(beerData.getLabels().getLarge()).resize(600, 600).centerInside().into(imageView);
+        if (!beerLabel.isEmpty()) {
             Picasso.with(imageView.getContext())
-                    .load(beerData.getLabels().getLarge())
+                    .load(beerLabel)
                     .transform(new BitmapTransform(MAX_WIDTH, MAX_HEIGHT))
                     .skipMemoryCache()
                     .resize(size, size)
                     .centerInside()
                     .into(imageView);
         }
-        if (beerData.getStyle().getDescription() != null) {
-            textView.setText(beerData.getStyle().getDescription());
-        }
+
+        textView.setText(beerDescription);
 
     }
 }

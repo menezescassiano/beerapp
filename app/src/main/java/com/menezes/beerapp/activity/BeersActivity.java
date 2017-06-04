@@ -29,6 +29,9 @@ public class BeersActivity extends AppCompatActivity implements ListViewHolder.O
 
     private static final String BEERS_RESPONSE = "BEERS_RESPONSE";
     private static final String SELECTED_BEER = "SELECTED_BEER";
+    private static final String SELECTED_BEER_PICTURE = "SELECTED_BEER_PICTURE";
+    private static final String SELECTED_BEER_DESCRIPTION = "SELECTED_BEER_DESCRIPTION";
+    private static final String SELECTED_BEER_NAME = "SELECTED_BEER_NAME";
 
     @InjectView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -75,18 +78,29 @@ public class BeersActivity extends AppCompatActivity implements ListViewHolder.O
     public void onBeerSelected(int position) {
         Fragment fragment = new BeerDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(SELECTED_BEER, beerDatas.get(position));
+        bundle.putString(SELECTED_BEER_PICTURE, beerDatas.get(position).getLabels() != null
+                ? beerDatas.get(position).getLabels().getLarge() : "");
+        bundle.putString(SELECTED_BEER_DESCRIPTION, beerDatas.get(position).getStyle() != null
+                ? beerDatas.get(position).getStyle().getDescription() : beerDatas.get(position).getDescription());
+        bundle.putString(SELECTED_BEER_NAME, beerDatas.get(position).getStyle() != null
+                ? beerDatas.get(position).getStyle().getName() : beerDatas.get(position).getName());
         fragment.setArguments(bundle);
         getFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if(getFragmentManager().getBackStackEntryCount() > 0)
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStack();
         else
             super.onBackPressed();
     }
+    /*public void replaceFragmentWithAnimation(android.support.v4.app.Fragment fragment, String tag){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_left, R.anim.exit_to_left);
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.addToBackStack(tag);
+        transaction.commit();
+    }*/
 }

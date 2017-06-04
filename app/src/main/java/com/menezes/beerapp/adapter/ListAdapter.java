@@ -19,13 +19,11 @@ import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<String> beersNames;
     private List<BeerData> beerList;
     final WeakReference<ListViewHolder.OnInteractionListener> listener;
 
     public ListAdapter(List<BeerData> beerList, ListViewHolder.OnInteractionListener listener) {
         this.beerList = beerList;
-        beersNames = getBeersNames(beerList);
         this.listener = new WeakReference<>(listener);
     }
 
@@ -33,31 +31,17 @@ public class ListAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.beer_list_item, parent, false);
-        return new ListViewHolder(view, context, beerList, listener);
+        return new ListViewHolder(view, listener);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ListViewHolder listViewHolder = (ListViewHolder) holder;
-        listViewHolder.populateList(beersNames.get(position));
+        listViewHolder.populateList(beerList);
     }
 
     @Override
     public int getItemCount() {
-        return beersNames.size();
-    }
-
-    private ArrayList<String> getBeersNames(List<BeerData> beerList) {
-        ArrayList<String> beersNames = new ArrayList();
-        for (BeerData beerData : beerList) {
-            if(beerData.getStyle() != null) {
-                beersNames.add(beerData.getStyle().getName());
-            } else {
-                beersNames.add(beerData.getName());
-            }
-
-        }
-
-        return beersNames;
+        return beerList.size();
     }
 }

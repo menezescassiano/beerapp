@@ -3,11 +3,14 @@ package com.menezes.beerapp.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.menezes.beerapp.R;
 import com.menezes.beerapp.model.BeerData;
+import com.menezes.beerapp.util.BitmapTransform;
+import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -18,17 +21,10 @@ import java.util.List;
 
 public class ListViewHolder extends RecyclerView.ViewHolder {
 
-    private View view;
-    private Context context;
-    private List<BeerData> beerList;
     private WeakReference<OnInteractionListener> listener;
 
-    public ListViewHolder(View itemView, final Context context, List<BeerData> beerList,
-                          final WeakReference<OnInteractionListener> listener) {
+    public ListViewHolder(View itemView, final WeakReference<OnInteractionListener> listener) {
         super(itemView);
-        this.view = itemView;
-        this.context = context;
-        this.beerList = beerList;
         this.listener = listener;
         itemView.setOnClickListener(itemOnClickListener);
     }
@@ -36,15 +32,32 @@ public class ListViewHolder extends RecyclerView.ViewHolder {
     private View.OnClickListener itemOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //BeerData beerData = beerList.get(getAdapterPosition());
             listener.get().onBeerSelected(getAdapterPosition());
-            //Toast.makeText(context, String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
         }
     };
 
-    public void populateList(String beerName) {
+    public void populateList(List<BeerData> beerList) {
+        String beerName;
         TextView tv = (TextView) itemView.findViewById(R.id.beer_name);
+        if(beerList.get(getAdapterPosition()).getStyle() != null) {
+            beerName = beerList.get(getAdapterPosition()).getStyle().getName();
+        } else {
+            beerName = beerList.get(getAdapterPosition()).getName();
+        }
         tv.setText(beerName);
+
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.thumbnail);
+
+        if (beerList.get(getAdapterPosition()).getLabels() != null) {
+            Picasso.with(imageView.getContext())
+                    .load(beerList.get(getAdapterPosition()).getLabels().getIcon())
+                    .transform(new BitmapTransform(50, 50))
+                    .skipMemoryCache()
+                    .resize(50, 50)
+                    .centerInside()
+                    .into(imageView);
+        }
+
     }
 
     public interface OnInteractionListener {

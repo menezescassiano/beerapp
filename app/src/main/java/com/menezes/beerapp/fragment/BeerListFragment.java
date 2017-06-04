@@ -16,7 +16,6 @@ import com.menezes.beerapp.adapter.ListViewHolder;
 import com.menezes.beerapp.model.BeerData;
 import com.menezes.beerapp.model.BeersResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -45,8 +44,9 @@ public class BeerListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_beer_list, container, false);
         ButterKnife.inject(this, view);
         Bundle bundle = this.getArguments();
-        beersResponse = bundle.getParcelable(BEERS_RESPONSE) ;
+        beersResponse = bundle.getParcelable(BEERS_RESPONSE);
         beerDataList = beersResponse.getData();
+        getActivity().setTitle(R.string.app_name);
         createList(beersResponse != null ? beersResponse.getData() : null);
         return view;
     }
