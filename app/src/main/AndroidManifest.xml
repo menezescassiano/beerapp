@@ -23,6 +23,8 @@
         </activity>
         <activity android:name=".activity.BeersActivity">
         </activity>
+        <activity android:name=".activity.HistoryActivity">
+        </activity>
     </application>
 
 </manifest>

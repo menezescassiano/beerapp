@@ -9,8 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.menezes.beerapp.R;
+import com.menezes.beerapp.database.BeersDataSource;
+import com.menezes.beerapp.model.BeerObject;
 import com.menezes.beerapp.util.BitmapTransform;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -44,8 +48,10 @@ public class BeerDetailsFragment extends Fragment {
     @InjectView(R.id.fav_icon)
     ImageView favIcon;
 
+    private String beerName;
     private String beerLabel;
     private String beerDescription;
+    private BeersDataSource beersDataSource;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,10 +60,12 @@ public class BeerDetailsFragment extends Fragment {
         Bundle bundle = this.getArguments();
         beerLabel = bundle.getString(SELECTED_BEER_PICTURE);
         beerDescription = bundle.getString(SELECTED_BEER_DESCRIPTION);
-        getActivity().setTitle(bundle.getString(SELECTED_BEER_NAME));
+        beerName = bundle.getString(SELECTED_BEER_NAME);
+        getActivity().setTitle(bundle.getString(beerName));
         favBorderIcon.setOnClickListener(favBorderIconListener);
         favIcon.setOnClickListener(favIconListener);
         setUI();
+        beersDataSource = new BeersDataSource(getActivity());
         return view;
     }
 
@@ -81,14 +89,23 @@ public class BeerDetailsFragment extends Fragment {
         public void onClick(View v) {
             favBorderIcon.setVisibility(GONE);
             favIcon.setVisibility(View.VISIBLE);
+            saveFavedBeer();
         }
     };
+
+    private void saveFavedBeer() {
+        BeerObject beerObject = new BeerObject(beerName, beerDescription, beerLabel);
+        beersDataSource.createBeerEntry(beerObject);
+        List<BeerObject> beerObjects = beersDataSource.getFavedBeers();
+
+    }
 
     private View.OnClickListener favIconListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             favBorderIcon.setVisibility(View.VISIBLE);
             favIcon.setVisibility(View.GONE);
+            beersDataSource.deleteBeerRow(beerName);
         }
     };
 }

@@ -32,7 +32,6 @@ public class BeerListFragment extends Fragment {
     @InjectView(R.id.beers_list)
     RecyclerView rvBeerList;
 
-    private List<BeerData> beerDataList;
     private BeersResponse beersResponse;
 
     private ListAdapter adapter;
@@ -45,7 +44,6 @@ public class BeerListFragment extends Fragment {
         ButterKnife.inject(this, view);
         Bundle bundle = this.getArguments();
         beersResponse = bundle.getParcelable(BEERS_RESPONSE);
-        beerDataList = beersResponse.getData();
         getActivity().setTitle(R.string.app_name);
         createList(beersResponse != null ? beersResponse.getData() : null);
         return view;
