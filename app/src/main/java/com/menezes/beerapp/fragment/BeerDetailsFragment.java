@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static android.view.View.GONE;
+
 /**
  * Created by cassiano.menezes on 29/05/2017.
  */
@@ -36,10 +38,14 @@ public class BeerDetailsFragment extends Fragment {
     @InjectView(R.id.text_beer_description)
     TextView textView;
 
-    //private BeerData beerData;
+    @InjectView(R.id.fav_border_icon)
+    ImageView favBorderIcon;
+
+    @InjectView(R.id.fav_icon)
+    ImageView favIcon;
+
     private String beerLabel;
     private String beerDescription;
-    private String beerName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,12 +55,13 @@ public class BeerDetailsFragment extends Fragment {
         beerLabel = bundle.getString(SELECTED_BEER_PICTURE);
         beerDescription = bundle.getString(SELECTED_BEER_DESCRIPTION);
         getActivity().setTitle(bundle.getString(SELECTED_BEER_NAME));
+        favBorderIcon.setOnClickListener(favBorderIconListener);
+        favIcon.setOnClickListener(favIconListener);
         setUI();
         return view;
     }
 
     private void setUI() {
-        //Picasso.with(getActivity()).load(beerData.getLabels().getLarge()).resize(600, 600).centerInside().into(imageView);
         if (!beerLabel.isEmpty()) {
             Picasso.with(imageView.getContext())
                     .load(beerLabel)
@@ -68,4 +75,20 @@ public class BeerDetailsFragment extends Fragment {
         textView.setText(beerDescription);
 
     }
+
+    private View.OnClickListener favBorderIconListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            favBorderIcon.setVisibility(GONE);
+            favIcon.setVisibility(View.VISIBLE);
+        }
+    };
+
+    private View.OnClickListener favIconListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            favBorderIcon.setVisibility(View.VISIBLE);
+            favIcon.setVisibility(View.GONE);
+        }
+    };
 }
