@@ -14,6 +14,7 @@ import com.menezes.beerapp.model.BeerObject;
 import com.menezes.beerapp.util.BitmapTransform;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -54,6 +55,7 @@ public class BeerDetailsFragment extends Fragment {
     private String beerDescription;
     private String thumbnail;
     private BeersDataSource beersDataSource;
+    private ArrayList<BeerObject> favedBeerObjects = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,8 +69,10 @@ public class BeerDetailsFragment extends Fragment {
         getActivity().setTitle(bundle.getString(beerName));
         favBorderIcon.setOnClickListener(favBorderIconListener);
         favIcon.setOnClickListener(favIconListener);
-        setUI();
         beersDataSource = new BeersDataSource(getActivity());
+        favedBeerObjects = beersDataSource.getFavedBeers();
+        setUI();
+
         return view;
     }
 
@@ -84,6 +88,19 @@ public class BeerDetailsFragment extends Fragment {
         }
 
         textView.setText(beerDescription);
+
+        if (!favedBeerObjects.isEmpty()) {
+            for (BeerObject beerObject : favedBeerObjects) {
+                if (beerObject.getName().equals(beerName)) {
+                    favBorderIcon.setVisibility(GONE);
+                    favIcon.setVisibility(View.VISIBLE);
+                    return;
+                } else {
+                    favBorderIcon.setVisibility(View.VISIBLE);
+                    favIcon.setVisibility(View.GONE);
+                }
+            }
+        }
 
     }
 
