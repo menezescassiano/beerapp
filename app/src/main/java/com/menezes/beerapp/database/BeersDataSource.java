@@ -23,7 +23,7 @@ public class BeersDataSource {
     private SQLiteDatabase database;
     private Context context;
     private String[] allColumns = {BeerDBHelper.ID, BeerDBHelper.CREATED_DATE, BeerDBHelper.BEER_NAME, BeerDBHelper.BEER_DESCRIPTION,
-            BeerDBHelper.BEER_LABEL_URL};
+            BeerDBHelper.BEER_THUMBNAIL, BeerDBHelper.BEER_LABEL_URL};
 
     public BeersDataSource(Context context) {
         this.context = context;
@@ -51,15 +51,16 @@ public class BeersDataSource {
         values.put(BeerDBHelper.BEER_NAME, beerObject.getName());
         values.put(BeerDBHelper.BEER_DESCRIPTION, beerObject.getDescription());
         values.put(BeerDBHelper.BEER_LABEL_URL, beerObject.getLabelUrl());
+        values.put(BeerDBHelper.BEER_THUMBNAIL, beerObject.getThumbnail());
         values.put(BeerDBHelper.CREATED_DATE, System.currentTimeMillis());
 
         database.insert(BeerDBHelper.TABLE_BEERS, null, values);
 
     }
 
-    public List<BeerObject> getFavedBeers() {
+    public ArrayList<BeerObject> getFavedBeers() {
         BeerObject beerObject;
-        List<BeerObject> list = new ArrayList<>();
+        ArrayList<BeerObject> list = new ArrayList<>();
         Cursor cursor = database
                 .query(BeerDBHelper.TABLE_BEERS, allColumns, null, null, null, null,
                         BeerDBHelper.CREATED_DATE + " DESC");
@@ -69,7 +70,8 @@ public class BeersDataSource {
             beerObject.setId(cursor.getLong(0));
             beerObject.setName(cursor.getString(2));
             beerObject.setDescription(cursor.getString(3));
-            beerObject.setLabelUrl(cursor.getString(4));
+            beerObject.setThumbnail(cursor.getString(4));
+            beerObject.setLabelUrl(cursor.getString(5));
             list.add(beerObject);
             cursor.moveToNext();
         }

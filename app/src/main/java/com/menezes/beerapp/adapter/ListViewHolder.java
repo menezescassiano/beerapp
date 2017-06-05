@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.menezes.beerapp.R;
 import com.menezes.beerapp.model.BeerData;
+import com.menezes.beerapp.model.BeerObject;
 import com.menezes.beerapp.util.BitmapTransform;
 import com.squareup.picasso.Picasso;
 
@@ -36,21 +37,17 @@ public class ListViewHolder extends RecyclerView.ViewHolder {
         }
     };
 
-    public void populateList(List<BeerData> beerList) {
+    public void populateList(List<BeerObject> beerList) {
         String beerName;
         TextView tv = (TextView) itemView.findViewById(R.id.beer_name);
-        if(beerList.get(getAdapterPosition()).getStyle() != null) {
-            beerName = beerList.get(getAdapterPosition()).getStyle().getName();
-        } else {
-            beerName = beerList.get(getAdapterPosition()).getName();
-        }
+        beerName = beerList.get(getAdapterPosition()).getName();
         tv.setText(beerName);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.thumbnail);
 
-        if (beerList.get(getAdapterPosition()).getLabels() != null) {
+        if (!beerList.get(getAdapterPosition()).getThumbnail().isEmpty()) {
             Picasso.with(imageView.getContext())
-                    .load(beerList.get(getAdapterPosition()).getLabels().getIcon())
+                    .load(beerList.get(getAdapterPosition()).getThumbnail())
                     .transform(new BitmapTransform(50, 50))
                     .skipMemoryCache()
                     .resize(50, 50)

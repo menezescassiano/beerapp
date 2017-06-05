@@ -2,4 +2,8 @@
     <string name="app_name">Beer App</string>
     <string name="connection_error">A connection error has occurred. Try gain Later.</string>
     <string name="no_description_available">Sorry. No description to display</string>
+    <string name="history">History</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

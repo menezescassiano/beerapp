@@ -23,20 +23,15 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-/**
- * Created by cassiano.menezes on 29/05/2017.
- */
 
-public class BeerListFragment extends Fragment {
-
-    private static String BEERS_RESPONSE = "BEERS_RESPONSE";
+public class HistoryFragment extends Fragment {
+    private static final String BEER_OBJECTS = "BEER_OBJECTS";
 
     @InjectView(R.id.beers_list)
     RecyclerView rvBeerList;
 
-    private BeersResponse beersResponse;
-
     private ListAdapter adapter;
+    private List<BeerObject> beerObjects;
 
     private ListViewHolder.OnInteractionListener interactionListener;
 
@@ -45,9 +40,8 @@ public class BeerListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_beer_list, container, false);
         ButterKnife.inject(this, view);
         Bundle bundle = this.getArguments();
-        beersResponse = bundle.getParcelable(BEERS_RESPONSE);
-        getActivity().setTitle(R.string.app_name);
-        createList(beersResponse != null ? beersResponse.getData() : null);
+        beerObjects = (List<BeerObject>) bundle.get(BEER_OBJECTS);
+        createList();
         return view;
     }
 
@@ -62,8 +56,7 @@ public class BeerListFragment extends Fragment {
         }
     }
 
-    private void createList(List<BeerData> beerList) {
-        List<BeerObject> beerObjects = getEssentialData(beerList);
+    private void createList() {
         adapter = new ListAdapter(beerObjects, interactionListener);
         rvBeerList.setAdapter(adapter);
         RecyclerView.LayoutManager layout = new LinearLayoutManager(getActivity()) {
@@ -75,21 +68,4 @@ public class BeerListFragment extends Fragment {
         rvBeerList.setLayoutManager(layout);
     }
 
-    private List<BeerObject> getEssentialData(List<BeerData> beerList) {
-        List<BeerObject> beerObjects = new ArrayList<>();
-        BeerObject beerObject;
-        for (BeerData beerData : beerList) {
-            beerObject = new BeerObject();
-            beerObject.setName(beerData.getStyle() != null
-                    ? beerData.getStyle().getName() : beerData.getName());
-            beerObject.setLabelUrl(beerData.getLabels() != null ? beerData.getLabels().getLarge() : "");
-            beerObject.setDescription(beerData.getStyle() != null
-                    ? beerData.getStyle().getDescription() : beerData.getDescription());
-            beerObject.setThumbnail(beerData.getLabels() != null
-                    ? beerData.getLabels().getIcon() : "");
-
-            beerObjects.add(beerObject);
-        }
-        return beerObjects;
-    }
 }

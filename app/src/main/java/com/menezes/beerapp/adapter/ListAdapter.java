@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.menezes.beerapp.R;
 import com.menezes.beerapp.model.BeerData;
+import com.menezes.beerapp.model.BeerObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter {
 
-    private List<BeerData> beerList;
+    private List<BeerObject> beerList;
     final WeakReference<ListViewHolder.OnInteractionListener> listener;
 
-    public ListAdapter(List<BeerData> beerList, ListViewHolder.OnInteractionListener listener) {
+    public ListAdapter(List<BeerObject> beerList, ListViewHolder.OnInteractionListener listener) {
         this.beerList = beerList;
         this.listener = new WeakReference<>(listener);
     }

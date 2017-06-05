@@ -17,6 +17,7 @@ public class BeerDBHelper extends SQLiteOpenHelper {
     protected static final String BEER_LABEL_URL = "beer_label_url";
     protected static final String BEER_NAME = "web_recent_page_url";
     protected static final String BEER_DESCRIPTION = "beer_description";
+    protected static final String BEER_THUMBNAIL = "beer_thumbnail";
     private static final String DB_NAME = "beer";
     private static final String TAG = BeerDBHelper.class.getName();
     private static final int DB_VERSION = 1;
@@ -26,6 +27,7 @@ public class BeerDBHelper extends SQLiteOpenHelper {
             CREATED_DATE + " INTEGER, " +
             BEER_NAME + " TEXT, " +
             BEER_DESCRIPTION + " TEXT, " +
+            BEER_THUMBNAIL + " TEXT, " +
             BEER_LABEL_URL + " TEXT);";
 
     public BeerDBHelper(Context context) {

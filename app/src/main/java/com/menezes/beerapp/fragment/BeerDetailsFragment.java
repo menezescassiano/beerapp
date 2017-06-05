@@ -30,6 +30,7 @@ public class BeerDetailsFragment extends Fragment {
     private static final String SELECTED_BEER_PICTURE = "SELECTED_BEER_PICTURE";
     private static final String SELECTED_BEER_DESCRIPTION = "SELECTED_BEER_DESCRIPTION";
     private static final String SELECTED_BEER_NAME = "SELECTED_BEER_NAME";
+    private static final String SELECTED_BEER_THUMBNAIL = "SELECTED_BEER_THUMBNAIL";
 
     private static final int MAX_WIDTH = 1024;
     private static final int MAX_HEIGHT = 768;
@@ -51,6 +52,7 @@ public class BeerDetailsFragment extends Fragment {
     private String beerName;
     private String beerLabel;
     private String beerDescription;
+    private String thumbnail;
     private BeersDataSource beersDataSource;
 
     @Override
@@ -61,6 +63,7 @@ public class BeerDetailsFragment extends Fragment {
         beerLabel = bundle.getString(SELECTED_BEER_PICTURE);
         beerDescription = bundle.getString(SELECTED_BEER_DESCRIPTION);
         beerName = bundle.getString(SELECTED_BEER_NAME);
+        thumbnail = bundle.getString(SELECTED_BEER_THUMBNAIL);
         getActivity().setTitle(bundle.getString(beerName));
         favBorderIcon.setOnClickListener(favBorderIconListener);
         favIcon.setOnClickListener(favIconListener);
@@ -94,7 +97,7 @@ public class BeerDetailsFragment extends Fragment {
     };
 
     private void saveFavedBeer() {
-        BeerObject beerObject = new BeerObject(beerName, beerDescription, beerLabel);
+        BeerObject beerObject = new BeerObject(beerName, beerDescription, beerLabel, thumbnail);
         beersDataSource.createBeerEntry(beerObject);
         List<BeerObject> beerObjects = beersDataSource.getFavedBeers();
 

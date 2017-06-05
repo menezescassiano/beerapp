@@ -36,6 +36,7 @@ public class BeersActivity extends AppCompatActivity implements ListViewHolder.O
     private static final String SELECTED_BEER_PICTURE = "SELECTED_BEER_PICTURE";
     private static final String SELECTED_BEER_DESCRIPTION = "SELECTED_BEER_DESCRIPTION";
     private static final String SELECTED_BEER_NAME = "SELECTED_BEER_NAME";
+    private static final String SELECTED_BEER_THUMBNAIL = "SELECTED_BEER_THUMBNAIL";
 
     @InjectView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -106,6 +107,8 @@ public class BeersActivity extends AppCompatActivity implements ListViewHolder.O
                 ? beerDatas.get(position).getStyle().getDescription() : beerDatas.get(position).getDescription());
         bundle.putString(SELECTED_BEER_NAME, beerDatas.get(position).getStyle() != null
                 ? beerDatas.get(position).getStyle().getName() : beerDatas.get(position).getName());
+        bundle.putString(SELECTED_BEER_THUMBNAIL, beerDatas.get(position).getLabels() != null
+                ? beerDatas.get(position).getLabels().getIcon() : "");
         fragment.setArguments(bundle);
         getFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
